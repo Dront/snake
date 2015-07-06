@@ -26,7 +26,7 @@ class Tile(object):
 
 class Obstacle(Tile):
     """
-    Class represents obstacles on map
+    Class represents obstacles on map. Convenience class.
     """
 
     def __init__(self, coords):

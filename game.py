@@ -62,7 +62,10 @@ class Game(object):
         Updates positions.
         """
         if not self.game_over:
-            pass
+            if utils.check_for_collisions(self.player.head, self.obstacles.tiles):
+                self.game_over = True
+            elif utils.check_for_collisions(self.player.head, self.player.body):
+                self.game_over = True
 
     def display_frame(self, screen):
         """ Display everything to the screen for the game. """

@@ -12,3 +12,18 @@ def draw_grid(screen):
 
     for y in range(0, win_size[1], tile_size):
         pygame.draw.aaline(screen, color, (0, y), (win_size[0], y))
+
+
+def check_for_collisions(tile, obstacles):
+    """
+    :param tile: single tile
+    :param obstacles: list of tiles
+    :return: True if tile collides with obstacles, False otherwise
+    """
+    [x, y] = tile.coords
+
+    for obs in obstacles:
+        if x == obs.coords[0] and y == obs.coords[1]:
+            return True
+
+    return False
