@@ -2,6 +2,7 @@ import pygame
 from pygame.constants import USEREVENT
 from params import params
 from snake import Snake
+import utils
 
 # TODO
 # create game states for some customizing
@@ -71,6 +72,7 @@ class Game(object):
             center_y = (params['WIN_SIZE'][1] // 2) - (text.get_height() // 2)
             screen.blit(text, [center_x, center_y])
         else:
+            utils.draw_grid(screen)
             self.player.draw(screen)
 
         pygame.display.flip()

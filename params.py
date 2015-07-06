@@ -14,6 +14,7 @@ params = {
     'TEXT_COLOR': (255, 160, 40),
     'HEAD_COLOR': (46, 166, 42),
     'BODY_COLOR': (37, 60, 213),
+    'GRID_COLOR': (100, 100, 100),
 
     'GAME_OVER_TEXT': 'Game Over, click to restart'
 }

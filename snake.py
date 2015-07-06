@@ -24,6 +24,7 @@ class Tile(object):
         pygame.draw.rect(screen, self.color, self.rect)
 
 
+
 class Snake(object):
     """
     Represents player
