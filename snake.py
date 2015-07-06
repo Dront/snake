@@ -30,37 +30,54 @@ class Snake(object):
     """
 
     tile = params['TILE_SIZE']
-    UP = (0, -tile)
-    DOWN = (0, tile)
-    LEFT = (-tile, 0)
-    RIGHT = (tile, 0)
+    UP = [0, -tile]
+    DOWN = [0, tile]
+    LEFT = [-tile, 0]
+    RIGHT = [tile, 0]
 
     def __init__(self):
+        self.cur_dir = self.UP
         self.head = Tile(params['START_POS'], params['HEAD_COLOR'])
-        self.dir = self.UP
+        self.size = params['START_SIZE']
+        self.next_dir = None
+
+        self.body = []
+        pos = self.head.coords
+        for i in range(1, self.size):
+            pos = [pos[0] - self.cur_dir[0], pos[1] - self.cur_dir[1]]
+            self.body.append(Tile(pos, params['BODY_COLOR']))
 
     def go(self):
-        # TODO
-        # move tail first
 
-        tmp = self.head.coords
-        x = tmp[0] + self.dir[0]
-        y = tmp[1] + self.dir[1]
+        if self.next_dir is not None:
+            self.cur_dir = self.next_dir
+            self.next_dir = None
 
-        x = constrain(x, 0, params['WIN_SIZE'][0])
-        y = constrain(y, 0, params['WIN_SIZE'][1])
+        tmp = list(self.head.coords)
 
-        self.head = Tile((x, y), params['HEAD_COLOR'])
+        new_tile = Tile(tmp, params['BODY_COLOR'])
+        self.body.insert(0, new_tile)
+        self.body.pop()
+
+        tmp = [tmp[0] + self.cur_dir[0], tmp[1] + self.cur_dir[1]]
+
+        self.head = Tile(tmp, params['HEAD_COLOR'])
 
     def change_dir(self, dir):
         if dir == 'UP':
-            self.dir = self.UP
+            if self.cur_dir != self.DOWN:
+                self.next_dir = self.UP
         elif dir == 'DOWN':
-            self.dir = self.DOWN
+            if self.cur_dir != self.UP:
+                self.next_dir = self.DOWN
         elif dir == 'LEFT':
-            self.dir = self.LEFT
+            if self.cur_dir != self.RIGHT:
+                self.next_dir = self.LEFT
         elif dir == 'RIGHT':
-            self.dir = self.RIGHT
+            if self.cur_dir != self.LEFT:
+                self.next_dir = self.RIGHT
 
     def draw(self, screen):
+        for tile in self.body:
+            tile.draw(screen)
         self.head.draw(screen)

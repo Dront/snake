@@ -4,7 +4,8 @@ from params import params
 from snake import Snake
 
 # TODO
-# creates game states for some customizing
+# create game states for some customizing
+
 
 class Game(object):
     """
@@ -22,7 +23,7 @@ class Game(object):
     def process_events(self):
         """
         Process all of the events.
-        Returns True if window must be closed.
+        Return True if window must be closed.
         """
 
         for event in pygame.event.get():
