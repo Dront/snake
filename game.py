@@ -1,7 +1,7 @@
 import pygame
 from pygame.constants import USEREVENT
 from params import params
-from snake import Snake
+from snake import Snake, ObstacleContainer
 import utils
 
 # TODO
@@ -18,8 +18,11 @@ class Game(object):
     def __init__(self):
         self.score = 0
         self.game_over = False
+
         self.player = Snake()
         pygame.time.set_timer(self.UPDATE_SNAKE, params['STEP_TIME'])
+
+        self.obstacles = ObstacleContainer()
 
     def process_events(self):
         """
@@ -73,6 +76,7 @@ class Game(object):
             screen.blit(text, [center_x, center_y])
         else:
             utils.draw_grid(screen)
+            self.obstacles.draw(screen)
             self.player.draw(screen)
 
         pygame.display.flip()

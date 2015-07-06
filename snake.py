@@ -24,6 +24,56 @@ class Tile(object):
         pygame.draw.rect(screen, self.color, self.rect)
 
 
+class Obstacle(Tile):
+    """
+    Class represents obstacles on map
+    """
+
+    def __init__(self, coords):
+        Tile.__init__(self, coords, params['OBSTACLE_COLOR'])
+
+
+class ObstacleContainer(object):
+    """
+    Represents all obstacle on map
+    """
+
+    def __init__(self, filename=None):
+
+        # TODO
+        # load map from file
+        # at the moment, just hardcoded default map
+
+        # import os
+        # cur_path = os.getcwd()
+        # map_path = os.path.join(cur_path, params['MAP_FOLDER'], filename)
+        #
+        # print map_path
+        #
+        # with open(map_path, 'r') as map_file:
+
+        self.tiles = []
+
+        if filename is None:
+            tile = params['TILE_SIZE']
+            tmp_y = params['WIN_SIZE'][1] - tile
+            tmp_x = params['WIN_SIZE'][0] - tile
+
+            for x in range(0, params['WIN_SIZE'][0], tile):
+                self.tiles.append(Obstacle([x, 0]))
+                self.tiles.append(Obstacle([x, tmp_y]))
+
+            for y in range(tile, params['WIN_SIZE'][1] - tile, tile):
+                self.tiles.append(Obstacle([0, y]))
+                self.tiles.append(Obstacle([tmp_x, y]))
+
+        else:
+            raise NotImplementedError
+
+    def draw(self, screen):
+        for tile in self.tiles:
+            tile.draw(screen)
+
 
 class Snake(object):
     """

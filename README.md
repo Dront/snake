@@ -8,7 +8,7 @@ ____
 
 # TODO:
 
-All kinds of stuff here :) 
+Load maps from file. At the moment, just hardcoded default map.
 ____
 
 # DONE:
