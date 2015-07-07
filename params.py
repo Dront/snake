@@ -8,7 +8,7 @@ params = {
     'START_SIZE': 5,
 
     'FPS': 40,
-    'STEP_TIME': 200,
+    'STEP_TIME': 250,
 
     'MAP_FOLDER': 'maps',
 
