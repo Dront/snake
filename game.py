@@ -4,8 +4,11 @@ from params import params
 from snake import Snake, ObstacleContainer, Fruit
 import utils
 
-# TODO
-# create game states for some customizing
+
+class State(object):
+    RUN = 1
+    PAUSE = 2
+    GAME_OVER = 3
 
 
 class Game(object):
@@ -17,13 +20,19 @@ class Game(object):
 
     def __init__(self):
         self.score = 0
-        self.game_over = False
+        self.state = State.RUN
 
         self.player = Snake()
-        pygame.time.set_timer(self.UPDATE_SNAKE, params['STEP_TIME'])
+        self.run_snake_timer()
 
         self.obstacles = ObstacleContainer()
         self.fruit = Fruit.create_random_fruit()
+
+    def run_snake_timer(self, run=True):
+        if run:
+            pygame.time.set_timer(self.UPDATE_SNAKE, params['STEP_TIME'])
+        else:
+            pygame.time.set_timer(self.UPDATE_SNAKE, 0)
 
     def process_events(self):
         """
@@ -39,21 +48,37 @@ class Game(object):
                 self.player.go()
 
             if event.type == pygame.KEYDOWN:
+
+                # exit
                 if event.key == pygame.K_ESCAPE:
                     return True
-                elif event.key == pygame.K_q:
-                    self.game_over = True
-                elif event.key == pygame.K_UP:
-                    self.player.change_dir('UP')
-                elif event.key == pygame.K_DOWN:
-                    self.player.change_dir('DOWN')
-                elif event.key == pygame.K_LEFT:
-                    self.player.change_dir('LEFT')
-                elif event.key == pygame.K_RIGHT:
-                    self.player.change_dir('RIGHT')
 
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if self.game_over:
+                # moving
+                if self.state == State.RUN:
+                    if event.key == pygame.K_UP:
+                        self.player.change_dir('UP')
+                    elif event.key == pygame.K_DOWN:
+                        self.player.change_dir('DOWN')
+                    elif event.key == pygame.K_LEFT:
+                        self.player.change_dir('LEFT')
+                    elif event.key == pygame.K_RIGHT:
+                        self.player.change_dir('RIGHT')
+                    elif event.key == pygame.K_q:
+                        self.state = State.GAME_OVER
+                        self.run_snake_timer(False)
+                    elif event.key == pygame.K_p:
+                        self.state = State.PAUSE
+                        self.run_snake_timer(False)
+
+                elif self.state == State.PAUSE:
+                    if event.key == pygame.K_q:
+                        self.state = State.GAME_OVER
+                    else:
+                        self.state = State.RUN
+                        self.run_snake_timer()
+
+                elif self.state == State.GAME_OVER:
+                    self.state = State.RUN
                     self.__init__()
 
         return False
@@ -62,11 +87,11 @@ class Game(object):
         """
         Updates positions.
         """
-        if not self.game_over:
+        if self.state == State.RUN:
             if utils.check_for_collisions(self.player.head, self.obstacles.tiles):
-                self.game_over = True
+                self.state = State.GAME_OVER
             elif utils.check_for_collisions(self.player.head, self.player.body):
-                self.game_over = True
+                self.state = State.GAME_OVER
             elif utils.check_for_collisions(self.player.head, [self.fruit]):
                 self.fruit = Fruit.create_random_fruit()
                 self.player.eat()
@@ -76,17 +101,18 @@ class Game(object):
         """ Display everything to the screen for the game. """
         screen.fill(params['BG_COLOR'])
 
-        if self.game_over:
-            font = pygame.font.SysFont('Sans', 25)
-            text = font.render(params['GAME_OVER_TEXT'], True, params['TEXT_COLOR'])
-            center_x = (params['WIN_SIZE'][0] // 2) - (text.get_width() // 2)
-            center_y = (params['WIN_SIZE'][1] // 2) - (text.get_height() // 2)
-            screen.blit(text, [center_x, center_y])
-        else:
+        if self.state == State.GAME_OVER:
+            utils.draw_text(screen, params['GAME_OVER_TEXT'])
+
+        elif self.state == State.RUN:
             utils.draw_grid(screen)
             self.obstacles.draw(screen)
             self.fruit.draw(screen)
             self.player.draw(screen)
-            utils.draw_score(screen, self.score)
+
+        elif self.state == State.PAUSE:
+            utils.draw_text(screen, params['GAME_PAUSED_TEXT'])
+
+        utils.draw_score(screen, self.score)
 
         pygame.display.flip()

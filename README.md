@@ -22,8 +22,6 @@ ____
 
 7) Saving records and options.
 
-8) Pause mode.
-
 9) All other ideas.
 
 ____

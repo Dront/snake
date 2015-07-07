@@ -14,6 +14,14 @@ def draw_grid(screen):
         pygame.draw.aaline(screen, color, (0, y), (win_size[0], y))
 
 
+def draw_text(screen, text):
+    font = pygame.font.SysFont('Sans', 25)
+    rendered_text = font.render(text, True, params['TEXT_COLOR'])
+    center_x = (params['WIN_SIZE'][0] // 2) - (rendered_text.get_width() // 2)
+    center_y = (params['WIN_SIZE'][1] // 2) - (rendered_text.get_height() // 2)
+    screen.blit(rendered_text, [center_x, center_y])
+
+
 def draw_score(screen, score):
     font = pygame.font.SysFont('Sans', 25)
     text = font.render('Score: ' + str(score), True, params['SCORE_COLOR'])
