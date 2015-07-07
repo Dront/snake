@@ -77,7 +77,7 @@ class Game(object):
         screen.fill(params['BG_COLOR'])
 
         if self.game_over:
-            font = pygame.font.Font(None, 25)
+            font = pygame.font.SysFont('Sans', 25)
             text = font.render(params['GAME_OVER_TEXT'], True, params['TEXT_COLOR'])
             center_x = (params['WIN_SIZE'][0] // 2) - (text.get_width() // 2)
             center_y = (params['WIN_SIZE'][1] // 2) - (text.get_height() // 2)
