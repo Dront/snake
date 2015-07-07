@@ -1,4 +1,5 @@
 import pygame
+import random
 from params import params
 
 
@@ -75,6 +76,24 @@ class ObstacleContainer(object):
             tile.draw(screen)
 
 
+class Fruit(Tile):
+    """
+    Class represents fruits for snake.
+    """
+
+    def __init__(self, coords):
+        Tile.__init__(self, coords, params['FRUIT_COLOR'])
+
+    @staticmethod
+    def create_random_fruit():
+        tile_size = params['TILE_SIZE']
+        max_size_x = params['WIN_SIZE'][0] - tile_size
+        max_size_y = params['WIN_SIZE'][1] - tile_size
+        x = random.randrange(tile_size, max_size_x, tile_size)
+        y = random.randrange(tile_size, max_size_y, tile_size)
+        return Fruit([x, y])
+
+
 class Snake(object):
     """
     Represents player
@@ -91,6 +110,7 @@ class Snake(object):
         self.head = Tile(params['START_POS'], params['HEAD_COLOR'])
         self.size = params['START_SIZE']
         self.next_dir = None
+        self.ate_something = None
 
         self.body = []
         pos = self.head.coords
@@ -99,7 +119,6 @@ class Snake(object):
             self.body.append(Tile(pos, params['BODY_COLOR']))
 
     def go(self):
-
         if self.next_dir is not None:
             self.cur_dir = self.next_dir
             self.next_dir = None
@@ -108,7 +127,10 @@ class Snake(object):
 
         new_tile = Tile(tmp, params['BODY_COLOR'])
         self.body.insert(0, new_tile)
-        self.body.pop()
+        if not self.ate_something:
+            self.body.pop()
+        else:
+            self.ate_something = False
 
         tmp = [tmp[0] + self.cur_dir[0], tmp[1] + self.cur_dir[1]]
 
@@ -127,6 +149,9 @@ class Snake(object):
         elif dir == 'RIGHT':
             if self.cur_dir != self.LEFT:
                 self.next_dir = self.RIGHT
+
+    def eat(self):
+        self.ate_something = True
 
     def draw(self, screen):
         for tile in self.body:

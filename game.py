@@ -1,7 +1,7 @@
 import pygame
 from pygame.constants import USEREVENT
 from params import params
-from snake import Snake, ObstacleContainer
+from snake import Snake, ObstacleContainer, Fruit
 import utils
 
 # TODO
@@ -23,6 +23,7 @@ class Game(object):
         pygame.time.set_timer(self.UPDATE_SNAKE, params['STEP_TIME'])
 
         self.obstacles = ObstacleContainer()
+        self.fruit = Fruit.create_random_fruit()
 
     def process_events(self):
         """
@@ -66,6 +67,10 @@ class Game(object):
                 self.game_over = True
             elif utils.check_for_collisions(self.player.head, self.player.body):
                 self.game_over = True
+            elif utils.check_for_collisions(self.player.head, [self.fruit]):
+                self.fruit = Fruit.create_random_fruit()
+                self.player.eat()
+                self.score += 1
 
     def display_frame(self, screen):
         """ Display everything to the screen for the game. """
@@ -80,6 +85,8 @@ class Game(object):
         else:
             utils.draw_grid(screen)
             self.obstacles.draw(screen)
+            self.fruit.draw(screen)
             self.player.draw(screen)
+            utils.draw_score(screen, self.score)
 
         pygame.display.flip()

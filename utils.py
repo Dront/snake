@@ -14,6 +14,14 @@ def draw_grid(screen):
         pygame.draw.aaline(screen, color, (0, y), (win_size[0], y))
 
 
+def draw_score(screen, score):
+    font = pygame.font.Font(None, 25)
+    text = font.render('Score: ' + str(score), True, params['SCORE_COLOR'])
+    x = (params['WIN_SIZE'][0] // 2) - (text.get_width() // 2)
+    y = text.get_height() // 2
+    screen.blit(text, [x, y])
+
+
 def check_for_collisions(tile, obstacles):
     """
     :param tile: single tile
