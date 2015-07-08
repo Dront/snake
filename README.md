@@ -8,23 +8,21 @@ ____
 
 ## TODO:
 
-1) New fruit may appear just under the snake. Fix.
+New fruit may appear just under the snake. Fix.
 
-2) A few fruits may appear on field at the same time.
+A few fruits may appear on field at the same time.
 
-2) Load maps from file. For now, it's just the hardcoded default map.
+Use more PyGame features, like sprites and groups for collision handling.
 
-3) Refactor like half of the code.
+Use some nice pictures instead of those creepy colored rectangles.
 
-4) Use more PyGame features, like sprites and groups for collision handling.
+Load maps from file. For now, it's just the hardcoded default map.
 
-5) Add some nice pictures instead of those creepy colored rectangles.
+Refactor like half of the code.
 
-6) Introduction and options screen.
+Introduction and options screen.
 
-7) Saving records and options.
-
-9) All other ideas.
+Saving records and options.
 
 ____
 

@@ -90,11 +90,11 @@ class Game(object):
         Updates positions.
         """
         if self.state == State.RUN:
-            if utils.check_for_collisions(self.player.head, self.obstacles.tiles):
+            if pygame.sprite.spritecollideany(self.player.head, self.obstacles.tiles):
                 self.state = State.GAME_OVER
-            elif utils.check_for_collisions(self.player.head, self.player.body):
+            elif pygame.sprite.spritecollideany(self.player.head, self.player.body):
                 self.state = State.GAME_OVER
-            elif utils.check_for_collisions(self.player.head, self.fruit.sprites()):
+            elif pygame.sprite.spritecollideany(self.player.head, self.fruit.sprites()):
                 self.fruit.add(Fruit.create_random_fruit())
                 self.player.eat()
                 self.score += 1

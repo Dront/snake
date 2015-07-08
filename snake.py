@@ -3,14 +3,6 @@ import random
 from params import params
 
 
-def constrain(x, left, right):
-        if x < left:
-            return left
-        if x > right:
-            return right
-        return x
-
-
 class Tile(pygame.sprite.Sprite):
     """
     Represents one tile from the grid

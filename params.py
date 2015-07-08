@@ -23,6 +23,7 @@ params = {
     'OBSTACLE_COLOR': (102, 0, 0),
     'FRUIT_COLOR': (204, 0, 204),
 
+    'FONT': 'optima',
     'GAME_OVER_TEXT': 'Game Over, press any key to restart',
     'GAME_PAUSED_TEXT': 'Pause, press any key to continue'
 }

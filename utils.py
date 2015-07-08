@@ -15,7 +15,7 @@ def draw_grid(screen):
 
 
 def draw_text(screen, text):
-    font = pygame.font.SysFont('Sans', 25)
+    font = pygame.font.SysFont(params['FONT'], 25)
     rendered_text = font.render(text, True, params['TEXT_COLOR'])
     center_x = (params['WIN_SIZE'][0] // 2) - (rendered_text.get_width() // 2)
     center_y = (params['WIN_SIZE'][1] // 2) - (rendered_text.get_height() // 2)
@@ -23,23 +23,16 @@ def draw_text(screen, text):
 
 
 def draw_score(screen, score):
-    font = pygame.font.SysFont('Sans', 25)
+    font = pygame.font.SysFont(params['FONT'], 25)
     text = font.render('Score: ' + str(score), True, params['SCORE_COLOR'])
     x = (params['WIN_SIZE'][0] // 2) - (text.get_width() // 2)
     y = text.get_height() // 2
     screen.blit(text, [x, y])
 
 
-def check_for_collisions(tile, obstacles):
-    """
-    :param tile: single tile
-    :param obstacles: list of tiles
-    :return: True if tile collides with obstacles, False otherwise
-    """
-    [x, y] = tile.coords
-
-    for obs in obstacles:
-        if x == obs.coords[0] and y == obs.coords[1]:
-            return True
-
-    return False
+def constrain(x, left, right):
+        if x < left:
+            return left
+        if x > right:
+            return right
+        return x
