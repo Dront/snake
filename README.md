@@ -10,6 +10,8 @@ ____
 
 1) New fruit may appear just under the snake. Fix.
 
+2) A few fruits may appear on field at the same time.
+
 2) Load maps from file. For now, it's just the hardcoded default map.
 
 3) Refactor like half of the code.

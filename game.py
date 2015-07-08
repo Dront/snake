@@ -14,6 +14,7 @@ class State(object):
 class Game(object):
     """
     This class represents an instance of the game.
+    Works like state-machine.
     """
 
     UPDATE_SNAKE = USEREVENT + 1
@@ -26,7 +27,8 @@ class Game(object):
         self.run_snake_timer()
 
         self.obstacles = ObstacleContainer()
-        self.fruit = Fruit.create_random_fruit()
+        self.fruit = pygame.sprite.GroupSingle()
+        self.fruit.add(Fruit.create_random_fruit())
 
     def run_snake_timer(self, run=True):
         if run:
@@ -92,8 +94,8 @@ class Game(object):
                 self.state = State.GAME_OVER
             elif utils.check_for_collisions(self.player.head, self.player.body):
                 self.state = State.GAME_OVER
-            elif utils.check_for_collisions(self.player.head, [self.fruit]):
-                self.fruit = Fruit.create_random_fruit()
+            elif utils.check_for_collisions(self.player.head, self.fruit.sprites()):
+                self.fruit.add(Fruit.create_random_fruit())
                 self.player.eat()
                 self.score += 1
 

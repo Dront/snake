@@ -9,8 +9,8 @@ def main():
     pygame.init()
 
     screen = pygame.display.set_mode(params['WIN_SIZE'])
-
     pygame.display.set_caption(params['CAPTION'])
+
     pygame.mouse.set_visible(True)
     pygame.mouse.set_cursor(*pygame.cursors.diamond)
 

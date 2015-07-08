@@ -11,18 +11,22 @@ def constrain(x, left, right):
         return x
 
 
-class Tile(object):
+class Tile(pygame.sprite.Sprite):
     """
     Represents one tile from the grid
     """
 
     def __init__(self, coords, color):
+        pygame.sprite.Sprite.__init__(self)
         self.color = color
         self.coords = coords
-        self.rect = pygame.Rect(self.coords, (params['TILE_SIZE'], params['TILE_SIZE']))
 
-    def draw(self, screen):
-        pygame.draw.rect(screen, self.color, self.rect)
+        size = params['TILE_SIZE']
+        self.image = pygame.Surface([size, size])
+        self.image.fill(self.color)
+        self.rect = self.image.get_rect()
+        self.rect.x = self.coords[0]
+        self.rect.y = self.coords[1]
 
 
 class Obstacle(Tile):
@@ -32,6 +36,34 @@ class Obstacle(Tile):
 
     def __init__(self, coords):
         Tile.__init__(self, coords, params['OBSTACLE_COLOR'])
+
+
+class Fruit(Tile):
+    """
+    Class represents fruits for snake.
+    """
+
+    def __init__(self, coords):
+        Tile.__init__(self, coords, params['FRUIT_COLOR'])
+
+    @staticmethod
+    def create_random_fruit():
+        tile_size = params['TILE_SIZE']
+        max_size_x = params['WIN_SIZE'][0] - tile_size
+        max_size_y = params['WIN_SIZE'][1] - tile_size
+        x = random.randrange(tile_size, max_size_x, tile_size)
+        y = random.randrange(tile_size, max_size_y, tile_size)
+        return Fruit([x, y])
+
+
+class SnakeHead(Tile):
+    def __init__(self, coords):
+        Tile.__init__(self, coords, params['HEAD_COLOR'])
+
+
+class SnakeBody(Tile):
+    def __init__(self, coords):
+        Tile.__init__(self, coords, params['BODY_COLOR'])
 
 
 class ObstacleContainer(object):
@@ -53,7 +85,7 @@ class ObstacleContainer(object):
         #
         # with open(map_path, 'r') as map_file:
 
-        self.tiles = []
+        self.tiles = pygame.sprite.Group()
 
         if filename is None:
             tile = params['TILE_SIZE']
@@ -61,37 +93,18 @@ class ObstacleContainer(object):
             tmp_x = params['WIN_SIZE'][0] - tile
 
             for x in range(0, params['WIN_SIZE'][0], tile):
-                self.tiles.append(Obstacle([x, 0]))
-                self.tiles.append(Obstacle([x, tmp_y]))
+                self.tiles.add(Obstacle([x, 0]))
+                self.tiles.add(Obstacle([x, tmp_y]))
 
             for y in range(tile, params['WIN_SIZE'][1] - tile, tile):
-                self.tiles.append(Obstacle([0, y]))
-                self.tiles.append(Obstacle([tmp_x, y]))
+                self.tiles.add(Obstacle([0, y]))
+                self.tiles.add(Obstacle([tmp_x, y]))
 
         else:
             raise NotImplementedError
 
     def draw(self, screen):
-        for tile in self.tiles:
-            tile.draw(screen)
-
-
-class Fruit(Tile):
-    """
-    Class represents fruits for snake.
-    """
-
-    def __init__(self, coords):
-        Tile.__init__(self, coords, params['FRUIT_COLOR'])
-
-    @staticmethod
-    def create_random_fruit():
-        tile_size = params['TILE_SIZE']
-        max_size_x = params['WIN_SIZE'][0] - tile_size
-        max_size_y = params['WIN_SIZE'][1] - tile_size
-        x = random.randrange(tile_size, max_size_x, tile_size)
-        y = random.randrange(tile_size, max_size_y, tile_size)
-        return Fruit([x, y])
+        self.tiles.draw(screen)
 
 
 class Snake(object):
@@ -107,34 +120,45 @@ class Snake(object):
 
     def __init__(self):
         self.cur_dir = self.UP
-        self.head = Tile(params['START_POS'], params['HEAD_COLOR'])
         self.size = params['START_SIZE']
         self.next_dir = None
         self.ate_something = None
+
+        self.head = SnakeHead(params['START_POS'])
 
         self.body = []
         pos = self.head.coords
         for i in range(1, self.size):
             pos = [pos[0] - self.cur_dir[0], pos[1] - self.cur_dir[1]]
-            self.body.append(Tile(pos, params['BODY_COLOR']))
+            self.body.append(SnakeBody(pos))
+
+        self.sprites = pygame.sprite.Group()
+        self.sprites.add(self.head)
+        self.sprites.add(self.body)
 
     def go(self):
         if self.next_dir is not None:
             self.cur_dir = self.next_dir
             self.next_dir = None
 
-        tmp = list(self.head.coords)
+        tmp_coords = list(self.head.coords)
 
-        new_tile = Tile(tmp, params['BODY_COLOR'])
+        new_tile = SnakeBody(tmp_coords)
+
         self.body.insert(0, new_tile)
+        self.sprites.add(new_tile)
+
         if not self.ate_something:
-            self.body.pop()
+            tmp = self.body.pop()
+            self.sprites.remove(tmp)
         else:
             self.ate_something = False
 
-        tmp = [tmp[0] + self.cur_dir[0], tmp[1] + self.cur_dir[1]]
+        tmp_coords = [tmp_coords[0] + self.cur_dir[0], tmp_coords[1] + self.cur_dir[1]]
 
-        self.head = Tile(tmp, params['HEAD_COLOR'])
+        self.sprites.remove(self.head)
+        self.head = SnakeHead(tmp_coords)
+        self.sprites.add(self.head)
 
     def change_dir(self, dir):
         if dir == 'UP':
@@ -154,6 +178,4 @@ class Snake(object):
         self.ate_something = True
 
     def draw(self, screen):
-        for tile in self.body:
-            tile.draw(screen)
-        self.head.draw(screen)
+        self.sprites.draw(screen)
