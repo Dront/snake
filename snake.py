@@ -17,8 +17,8 @@ class Tile(pygame.sprite.Sprite):
         self.image = pygame.Surface([size, size])
         self.image.fill(self.color)
         self.rect = self.image.get_rect()
-        self.rect.x = self.coords[0]
-        self.rect.y = self.coords[1]
+        self.rect.x = self.coords[0] * size
+        self.rect.y = self.coords[1] * size
 
 
 class Obstacle(Tile):
@@ -40,11 +40,9 @@ class Fruit(Tile):
 
     @staticmethod
     def create_random_fruit():
-        tile_size = params['TILE_SIZE']
-        max_size_x = params['WIN_SIZE'][0] - tile_size
-        max_size_y = params['WIN_SIZE'][1] - tile_size
-        x = random.randrange(tile_size, max_size_x, tile_size)
-        y = random.randrange(tile_size, max_size_y, tile_size)
+        max_size_x = params['TILE_COUNT'] - 1
+        x = random.randrange(1, max_size_x)
+        y = random.randrange(1, max_size_x)
         return Fruit([x, y])
 
 
@@ -80,17 +78,15 @@ class ObstacleContainer(object):
         self.tiles = pygame.sprite.Group()
 
         if filename is None:
-            tile = params['TILE_SIZE']
-            tmp_y = params['WIN_SIZE'][1] - tile
-            tmp_x = params['WIN_SIZE'][0] - tile
+            tile_count = params['TILE_COUNT']
 
-            for x in range(0, params['WIN_SIZE'][0], tile):
+            for x in range(0, tile_count):
                 self.tiles.add(Obstacle([x, 0]))
-                self.tiles.add(Obstacle([x, tmp_y]))
+                self.tiles.add(Obstacle([x, tile_count - 1]))
 
-            for y in range(tile, params['WIN_SIZE'][1] - tile, tile):
+            for y in range(1, tile_count - 1):
                 self.tiles.add(Obstacle([0, y]))
-                self.tiles.add(Obstacle([tmp_x, y]))
+                self.tiles.add(Obstacle([tile_count - 1, y]))
 
         else:
             raise NotImplementedError
@@ -104,11 +100,10 @@ class Snake(object):
     Represents player
     """
 
-    tile = params['TILE_SIZE']
-    UP = [0, -tile]
-    DOWN = [0, tile]
-    LEFT = [-tile, 0]
-    RIGHT = [tile, 0]
+    UP = [0, -1]
+    DOWN = [0,  1]
+    LEFT = [-1, 0]
+    RIGHT = [1,  0]
 
     def __init__(self):
         self.cur_dir = self.UP

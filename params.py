@@ -7,7 +7,7 @@ params = {
     'TILE_SIZE': 40,
     'TILE_COUNT': 20,
 
-    'START_POS': [400, 400],
+    'START_POS': [10, 10],
     'START_SIZE': 5,
 
     'FPS': 40,
