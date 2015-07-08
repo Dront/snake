@@ -14,7 +14,7 @@ class State(object):
 class Game(object):
     """
     This class represents an instance of the game.
-    Works like state-machine.
+    Works like simple state machine.
     """
 
     UPDATE_SNAKE = USEREVENT + 1
@@ -51,11 +51,10 @@ class Game(object):
 
             if event.type == pygame.KEYDOWN:
 
-                # exit
+                # esc pressed - quit
                 if event.key == pygame.K_ESCAPE:
                     return True
 
-                # moving
                 if self.state == State.RUN:
                     if event.key == pygame.K_UP:
                         self.player.change_dir('UP')
@@ -65,9 +64,11 @@ class Game(object):
                         self.player.change_dir('LEFT')
                     elif event.key == pygame.K_RIGHT:
                         self.player.change_dir('RIGHT')
+
                     elif event.key == pygame.K_q:
                         self.state = State.GAME_OVER
                         self.run_snake_timer(False)
+
                     elif event.key == pygame.K_p:
                         self.state = State.PAUSE
                         self.run_snake_timer(False)
@@ -80,7 +81,6 @@ class Game(object):
                         self.run_snake_timer()
 
                 elif self.state == State.GAME_OVER:
-                    self.state = State.RUN
                     self.__init__()
 
         return False
@@ -90,17 +90,23 @@ class Game(object):
         Updates positions.
         """
         if self.state == State.RUN:
+
+            # collision with wall
             if pygame.sprite.spritecollideany(self.player.head, self.obstacles.tiles):
                 self.state = State.GAME_OVER
+
+            # collision with tail
             elif pygame.sprite.spritecollideany(self.player.head, self.player.body):
                 self.state = State.GAME_OVER
+
+            # ate a fruit
             elif pygame.sprite.spritecollideany(self.player.head, self.fruit.sprites()):
                 self.fruit.add(Fruit.create_random_fruit())
                 self.player.eat()
                 self.score += 1
 
     def display_frame(self, screen):
-        """ Display everything to the screen for the game. """
+        """ Display everything to the screen. """
         screen.fill(params['BG_COLOR'])
 
         if self.state == State.GAME_OVER:

@@ -25,7 +25,6 @@ def main():
         game.display_frame(screen)
         clock.tick(params['FPS'])
 
-    # Close window and exit
     pygame.quit()
 
 

@@ -12,8 +12,6 @@ New fruit may appear just under the snake. Fix.
 
 A few fruits may appear on field at the same time.
 
-Use more PyGame features, like sprites and groups for collision handling.
-
 Use some nice pictures instead of those creepy colored rectangles.
 
 Load maps from file. For now, it's just the hardcoded default map.
@@ -29,4 +27,5 @@ ____
 ## DONE:
 
 Basic game is ready.
+
 ____
