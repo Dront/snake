@@ -26,7 +26,7 @@ class Game(object):
         self.player = Snake()
         self.run_snake_timer()
 
-        self.obstacles = ObstacleContainer()
+        self.obstacles = ObstacleContainer(filename=params["DEFAULT_MAP"])
         self.fruit = pygame.sprite.GroupSingle()
         self.fruit.add(Fruit.create_random_fruit())
 

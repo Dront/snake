@@ -8,17 +8,20 @@ class Tile(pygame.sprite.Sprite):
     Represents one tile from the grid
     """
 
+    size = params['TILE_SIZE']
+
     def __init__(self, coords, color):
         pygame.sprite.Sprite.__init__(self)
         self.color = color
-        self.coords = coords
-
-        size = params['TILE_SIZE']
-        self.image = pygame.Surface([size, size])
+        self.image = pygame.Surface((Tile.size, Tile.size))
         self.image.fill(self.color)
         self.rect = self.image.get_rect()
-        self.rect.x = self.coords[0] * size
-        self.rect.y = self.coords[1] * size
+        self.set_coords(coords)
+
+    def set_coords(self, coords):
+        self.coords = coords
+        self.rect.x = self.coords[0] * self.size
+        self.rect.y = self.coords[1] * self.size
 
 
 class Obstacle(Tile):
@@ -62,19 +65,6 @@ class ObstacleContainer(object):
     """
 
     def __init__(self, filename=None):
-
-        # TODO
-        # load map from file
-        # at the moment, just hardcoded default map
-
-        # import os
-        # cur_path = os.getcwd()
-        # map_path = os.path.join(cur_path, params['MAP_FOLDER'], filename)
-        #
-        # print map_path
-        #
-        # with open(map_path, 'r') as map_file:
-
         self.tiles = pygame.sprite.Group()
 
         if filename is None:
@@ -89,7 +79,17 @@ class ObstacleContainer(object):
                 self.tiles.add(Obstacle([tile_count - 1, y]))
 
         else:
-            raise NotImplementedError
+            import os
+            cur_path = os.getcwd()
+            map_path = os.path.join(cur_path, params['MAP_FOLDER'], filename)
+
+            print map_path
+
+            with open(map_path, 'r') as map_file:
+                for i, line in enumerate(map_file):
+                    for j in xrange(params['TILE_COUNT']):
+                        if line[j] == '*':
+                            self.tiles.add(Obstacle([j, i]))
 
     def draw(self, screen):
         self.tiles.draw(screen)
@@ -128,36 +128,36 @@ class Snake(object):
             self.cur_dir = self.next_dir
             self.next_dir = None
 
-        tmp_coords = list(self.head.coords)
+        head_coords = list(self.head.coords)
+        tail_coords = list(self.body[-1].coords)
 
-        new_tile = SnakeBody(tmp_coords)
+        for i in xrange(len(self.body)-1, 0, -1):
+            c = self.body[i-1].coords
+            self.body[i].set_coords(c)
 
-        self.body.insert(0, new_tile)
-        self.sprites.add(new_tile)
+        self.body[0].set_coords(head_coords)
 
-        if not self.ate_something:
-            tmp = self.body.pop()
-            self.sprites.remove(tmp)
-        else:
+        if self.ate_something:
+            new_tile = SnakeBody(tail_coords)
+            self.body.append(new_tile)
+            self.sprites.add(new_tile)
             self.ate_something = False
 
-        tmp_coords = [tmp_coords[0] + self.cur_dir[0], tmp_coords[1] + self.cur_dir[1]]
+        head_x = (head_coords[0] + self.cur_dir[0]) % params['TILE_COUNT']
+        head_y = (head_coords[1] + self.cur_dir[1]) % params['TILE_COUNT']
+        self.head.set_coords([head_x, head_y])
 
-        self.sprites.remove(self.head)
-        self.head = SnakeHead(tmp_coords)
-        self.sprites.add(self.head)
-
-    def change_dir(self, dir):
-        if dir == 'UP':
+    def change_dir(self, direction):
+        if direction == 'UP':
             if self.cur_dir != self.DOWN:
                 self.next_dir = self.UP
-        elif dir == 'DOWN':
+        elif direction == 'DOWN':
             if self.cur_dir != self.UP:
                 self.next_dir = self.DOWN
-        elif dir == 'LEFT':
+        elif direction == 'LEFT':
             if self.cur_dir != self.RIGHT:
                 self.next_dir = self.LEFT
-        elif dir == 'RIGHT':
+        elif direction == 'RIGHT':
             if self.cur_dir != self.LEFT:
                 self.next_dir = self.RIGHT
 

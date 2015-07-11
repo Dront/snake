@@ -8,19 +8,19 @@ ____
 
 ## TODO:
 
+Create map class. Map may get a bit more complicated later.
+
 New fruit may appear just under the snake. Fix.
 
-A few fruits may appear on field at the same time.
+A few fruits shall appear on field at the same time.
 
 Use some nice pictures instead of those creepy colored rectangles.
 
-Load maps from file. For now, it's just the hardcoded default map.
+Saving records and options.
 
 Refactor like half of the code.
 
 Introduction and options screen.
-
-Saving records and options.
 
 ____
 
