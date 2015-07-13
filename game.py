@@ -20,6 +20,12 @@ class Game(object):
     UPDATE_SNAKE = USEREVENT + 1
 
     def __init__(self):
+
+        map_size = params['TILE_COUNT']
+        self.map = [(i, j) for i in range(map_size) for j in range(map_size)]
+
+        print set(self.map)
+
         self.score = 0
         self.state = State.RUN
 
@@ -101,6 +107,7 @@ class Game(object):
 
             # ate a fruit
             elif pygame.sprite.spritecollideany(self.player.head, self.fruit.sprites()):
+
                 self.fruit.add(Fruit.create_random_fruit())
                 self.player.eat()
                 self.score += 1

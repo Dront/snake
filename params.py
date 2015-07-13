@@ -3,11 +3,11 @@ from os import linesep
 params = {
     'CAPTION': 'snake',
 
-    'WIN_SIZE': [800, 800],
+    'WIN_SIZE': (800, 800),
     'TILE_SIZE': 40,
     'TILE_COUNT': 20,
 
-    'START_POS': [10, 10],
+    'START_POS': (10, 10),
     'START_SIZE': 5,
 
     'FPS': 40,

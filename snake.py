@@ -1,5 +1,6 @@
 import pygame
 import random
+import os
 from params import params
 
 
@@ -46,7 +47,7 @@ class Fruit(Tile):
         max_size_x = params['TILE_COUNT'] - 1
         x = random.randrange(1, max_size_x)
         y = random.randrange(1, max_size_x)
-        return Fruit([x, y])
+        return Fruit((x, y))
 
 
 class SnakeHead(Tile):
@@ -66,30 +67,21 @@ class ObstacleContainer(object):
 
     def __init__(self, filename=None):
         self.tiles = pygame.sprite.Group()
+        self.coords = []
 
         if filename is None:
-            tile_count = params['TILE_COUNT']
+            filename = params['DEFAULT_MAP']
 
-            for x in range(0, tile_count):
-                self.tiles.add(Obstacle([x, 0]))
-                self.tiles.add(Obstacle([x, tile_count - 1]))
+        cur_path = os.getcwd()
+        map_path = os.path.join(cur_path, params['MAP_FOLDER'], filename)
 
-            for y in range(1, tile_count - 1):
-                self.tiles.add(Obstacle([0, y]))
-                self.tiles.add(Obstacle([tile_count - 1, y]))
-
-        else:
-            import os
-            cur_path = os.getcwd()
-            map_path = os.path.join(cur_path, params['MAP_FOLDER'], filename)
-
-            print map_path
-
-            with open(map_path, 'r') as map_file:
-                for i, line in enumerate(map_file):
-                    for j in xrange(params['TILE_COUNT']):
-                        if line[j] == '*':
-                            self.tiles.add(Obstacle([j, i]))
+        with open(map_path, 'r') as map_file:
+            for i, line in enumerate(map_file):
+                for j in xrange(params['TILE_COUNT']):
+                    if line[j] == '*':
+                        c = (j, i)
+                        self.coords.append(c)
+                        self.tiles.add(Obstacle(c))
 
     def draw(self, screen):
         self.tiles.draw(screen)
@@ -100,10 +92,10 @@ class Snake(object):
     Represents player
     """
 
-    UP = [0, -1]
-    DOWN = [0,  1]
-    LEFT = [-1, 0]
-    RIGHT = [1,  0]
+    UP = (0, -1)
+    DOWN = (0,  1)
+    LEFT = (-1, 0)
+    RIGHT = (1,  0)
 
     def __init__(self):
         self.cur_dir = self.UP
@@ -114,9 +106,11 @@ class Snake(object):
         self.head = SnakeHead(params['START_POS'])
 
         self.body = []
+        self.coords = [self.head.coords]
         pos = self.head.coords
         for i in range(1, self.size):
-            pos = [pos[0] - self.cur_dir[0], pos[1] - self.cur_dir[1]]
+            pos = (pos[0] - self.cur_dir[0], pos[1] - self.cur_dir[1])
+            self.coords.append(pos)
             self.body.append(SnakeBody(pos))
 
         self.sprites = pygame.sprite.Group()
@@ -128,24 +122,30 @@ class Snake(object):
             self.cur_dir = self.next_dir
             self.next_dir = None
 
-        head_coords = list(self.head.coords)
-        tail_coords = list(self.body[-1].coords)
+        self.coords = []
+        head_coords = tuple(self.head.coords)
+        tail_coords = tuple(self.body[-1].coords)
 
         for i in xrange(len(self.body)-1, 0, -1):
             c = self.body[i-1].coords
             self.body[i].set_coords(c)
+            self.coords.append(c)
 
         self.body[0].set_coords(head_coords)
+        self.coords.append(head_coords)
 
         if self.ate_something:
             new_tile = SnakeBody(tail_coords)
+            self.coords.append(tail_coords)
             self.body.append(new_tile)
             self.sprites.add(new_tile)
             self.ate_something = False
 
         head_x = (head_coords[0] + self.cur_dir[0]) % params['TILE_COUNT']
         head_y = (head_coords[1] + self.cur_dir[1]) % params['TILE_COUNT']
-        self.head.set_coords([head_x, head_y])
+        tmp = (head_x, head_y)
+        self.head.set_coords(tmp)
+        self.coords.append(tmp)
 
     def change_dir(self, direction):
         if direction == 'UP':

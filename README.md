@@ -8,8 +8,6 @@ ____
 
 ## TODO:
 
-Create map class. Map may get a bit more complicated later.
-
 New fruit may appear just under the snake. Fix.
 
 A few fruits shall appear on field at the same time.
@@ -21,6 +19,8 @@ Saving records and options.
 Refactor like half of the code.
 
 Introduction and options screen.
+
+Map class?
 
 ____
 
