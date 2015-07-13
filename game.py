@@ -1,4 +1,5 @@
 import pygame
+import random
 from pygame.constants import USEREVENT
 from params import params
 from snake import Snake, ObstacleContainer, Fruit
@@ -20,12 +21,6 @@ class Game(object):
     UPDATE_SNAKE = USEREVENT + 1
 
     def __init__(self):
-
-        map_size = params['TILE_COUNT']
-        self.map = [(i, j) for i in range(map_size) for j in range(map_size)]
-
-        print set(self.map)
-
         self.score = 0
         self.state = State.RUN
 
@@ -33,8 +28,18 @@ class Game(object):
         self.run_snake_timer()
 
         self.obstacles = ObstacleContainer(filename=params["DEFAULT_MAP"])
+
+        map_size = params['TILE_COUNT']
+        self.map = set([(i, j) for i in range(map_size) for j in range(map_size)])
+        self.map -= self.obstacles.coords
+
         self.fruit = pygame.sprite.GroupSingle()
-        self.fruit.add(Fruit.create_random_fruit())
+        self.fruit.add(self.create_fruit())
+
+    def create_fruit(self):
+        free_tiles = self.map - self.player.coords
+        new_coords = random.choice(list(free_tiles))
+        return Fruit(new_coords)
 
     def run_snake_timer(self, run=True):
         if run:
@@ -107,8 +112,7 @@ class Game(object):
 
             # ate a fruit
             elif pygame.sprite.spritecollideany(self.player.head, self.fruit.sprites()):
-
-                self.fruit.add(Fruit.create_random_fruit())
+                self.fruit.add(self.create_fruit())
                 self.player.eat()
                 self.score += 1
 

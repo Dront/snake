@@ -14,7 +14,7 @@ params = {
     'STEP_TIME': 250,
 
     'MAP_FOLDER': 'maps',
-    'DEFAULT_MAP': 'map2.txt',
+    'DEFAULT_MAP': 'map3.txt',
 
     'BG_COLOR': (55, 55, 55),
     'TEXT_COLOR': (255, 160, 40),

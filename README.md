@@ -8,8 +8,6 @@ ____
 
 ## TODO:
 
-New fruit may appear just under the snake. Fix.
-
 A few fruits shall appear on field at the same time.
 
 Use some nice pictures instead of those creepy colored rectangles.

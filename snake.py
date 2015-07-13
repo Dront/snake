@@ -67,7 +67,7 @@ class ObstacleContainer(object):
 
     def __init__(self, filename=None):
         self.tiles = pygame.sprite.Group()
-        self.coords = []
+        self.coords = set()
 
         if filename is None:
             filename = params['DEFAULT_MAP']
@@ -80,7 +80,7 @@ class ObstacleContainer(object):
                 for j in xrange(params['TILE_COUNT']):
                     if line[j] == '*':
                         c = (j, i)
-                        self.coords.append(c)
+                        self.coords.add(c)
                         self.tiles.add(Obstacle(c))
 
     def draw(self, screen):
@@ -106,11 +106,11 @@ class Snake(object):
         self.head = SnakeHead(params['START_POS'])
 
         self.body = []
-        self.coords = [self.head.coords]
+        self.coords = set(self.head.coords)
         pos = self.head.coords
         for i in range(1, self.size):
             pos = (pos[0] - self.cur_dir[0], pos[1] - self.cur_dir[1])
-            self.coords.append(pos)
+            self.coords.add(pos)
             self.body.append(SnakeBody(pos))
 
         self.sprites = pygame.sprite.Group()
@@ -122,21 +122,21 @@ class Snake(object):
             self.cur_dir = self.next_dir
             self.next_dir = None
 
-        self.coords = []
+        self.coords = set()
         head_coords = tuple(self.head.coords)
         tail_coords = tuple(self.body[-1].coords)
 
         for i in xrange(len(self.body)-1, 0, -1):
             c = self.body[i-1].coords
             self.body[i].set_coords(c)
-            self.coords.append(c)
+            self.coords.add(c)
 
         self.body[0].set_coords(head_coords)
-        self.coords.append(head_coords)
+        self.coords.add(head_coords)
 
         if self.ate_something:
             new_tile = SnakeBody(tail_coords)
-            self.coords.append(tail_coords)
+            self.coords.add(tail_coords)
             self.body.append(new_tile)
             self.sprites.add(new_tile)
             self.ate_something = False
@@ -145,7 +145,7 @@ class Snake(object):
         head_y = (head_coords[1] + self.cur_dir[1]) % params['TILE_COUNT']
         tmp = (head_x, head_y)
         self.head.set_coords(tmp)
-        self.coords.append(tmp)
+        self.coords.add(tmp)
 
     def change_dir(self, direction):
         if direction == 'UP':
