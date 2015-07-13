@@ -39,15 +39,9 @@ class Fruit(Tile):
     Class represents fruits for snake.
     """
 
-    def __init__(self, coords):
+    def __init__(self, coords, weight=1):
+        self.weight = weight
         Tile.__init__(self, coords, params['FRUIT_COLOR'])
-
-    @staticmethod
-    def create_random_fruit():
-        max_size_x = params['TILE_COUNT'] - 1
-        x = random.randrange(1, max_size_x)
-        y = random.randrange(1, max_size_x)
-        return Fruit((x, y))
 
 
 class SnakeHead(Tile):
@@ -65,12 +59,9 @@ class ObstacleContainer(object):
     Represents all obstacle on map
     """
 
-    def __init__(self, filename=None):
+    def __init__(self, filename=params['DEFAULT_MAP']):
         self.tiles = pygame.sprite.Group()
         self.coords = set()
-
-        if filename is None:
-            filename = params['DEFAULT_MAP']
 
         cur_path = os.getcwd()
         map_path = os.path.join(cur_path, params['MAP_FOLDER'], filename)
@@ -98,6 +89,7 @@ class Snake(object):
     RIGHT = (1,  0)
 
     def __init__(self):
+        self.score = 0
         self.cur_dir = self.UP
         self.size = params['START_SIZE']
         self.next_dir = None
@@ -161,7 +153,8 @@ class Snake(object):
             if self.cur_dir != self.LEFT:
                 self.next_dir = self.RIGHT
 
-    def eat(self):
+    def eat(self, fruit):
+        self.score += fruit.weight
         self.ate_something = True
 
     def draw(self, screen):

@@ -21,7 +21,6 @@ class Game(object):
     UPDATE_SNAKE = USEREVENT + 1
 
     def __init__(self):
-        self.score = 0
         self.state = State.RUN
 
         self.player = Snake()
@@ -39,7 +38,7 @@ class Game(object):
     def create_fruit(self):
         free_tiles = self.map - self.player.coords
         new_coords = random.choice(list(free_tiles))
-        return Fruit(new_coords)
+        return Fruit(new_coords, weight=random.randint(1, 3))
 
     def run_snake_timer(self, run=True):
         if run:
@@ -111,10 +110,11 @@ class Game(object):
                 self.state = State.GAME_OVER
 
             # ate a fruit
-            elif pygame.sprite.spritecollideany(self.player.head, self.fruit.sprites()):
+            ate = pygame.sprite.spritecollideany(self.player.head, self.fruit.sprites())
+            if ate is not None:
+                self.player.eat(ate)
                 self.fruit.add(self.create_fruit())
-                self.player.eat()
-                self.score += 1
+
 
     def display_frame(self, screen):
         """ Display everything to the screen. """
@@ -132,6 +132,6 @@ class Game(object):
         elif self.state == State.PAUSE:
             utils.draw_text(screen, params['GAME_PAUSED_TEXT'])
 
-        utils.draw_score(screen, self.score)
+        utils.draw_score(screen, self.player.score)
 
         pygame.display.flip()
