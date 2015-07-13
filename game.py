@@ -43,7 +43,7 @@ class Game(object):
     def create_fruit(self):
         free_tiles = self.map - self.player.coords
         new_coords = random.choice(list(free_tiles))
-        return Fruit(new_coords, weight=random.randint(1, 3))
+        return Fruit.create(new_coords)
 
     def run_snake_timer(self, run=True):
         if run:

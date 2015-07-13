@@ -2,22 +2,24 @@ params = {
     'CAPTION': 'snake',
 
     'WIN_SIZE': (800, 800),
-    'TILE_SIZE': 25,
-    'TILE_COUNT': 32,
+    'TILE_SIZE': 40,
+    'TILE_COUNT': 20,
 
-    'START_POS': (20, 20),
+    'START_POS': (10, 10),
     'START_SIZE': 7,
 
-    'FPS': 10,
-    'STEP_TIME': 100,
+    'FPS': 20,
+    'STEP_TIME': 200,
 
     'MAP_FOLDER': 'maps',
-    'DEFAULT_MAP': 'big1.txt',
+    'DEFAULT_MAP': 'map3.txt',
 
     'PIC_FOLDER': 'pics',
     'BG_PIC': 'snake.jpg',
     'ICON': 'ksnake.png',
-    'APPLE_PIC': 'apple.png',
+
+    'FRUIT_PICS': ['apple.png', 'cherry.png', 'lemon.png', 'strawberry.png'],
+    'FRUIT_WEIGHTS': [1, 2, 3, 4],
 
     'BG_COLOR': (55, 55, 55),
     'TEXT_COLOR': (255, 160, 40),

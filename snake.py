@@ -1,4 +1,5 @@
 import pygame
+import random
 import os
 from params import params
 
@@ -38,12 +39,20 @@ class Fruit(Tile):
     Class represents fruits for snake.
     """
 
-    def __init__(self, coords, weight=1, pic=params['APPLE_PIC']):
+    pics = params['FRUIT_PICS']
+    weights = params['FRUIT_WEIGHTS']
+
+    def __init__(self, coords, weight=1, pic=pics[0]):
         Tile.__init__(self, coords, params['FRUIT_COLOR'])
         self.weight = weight
         pic = pygame.image.load(os.path.join(params['PIC_FOLDER'], pic))
         pic = pygame.transform.scale(pic, (Tile.size, Tile.size)).convert_alpha()
         self.image = pic
+
+    @staticmethod
+    def create(coords):
+        index = random.randrange(len(Fruit.pics))
+        return Fruit(coords, weight=Fruit.weights[index], pic=Fruit.pics[index])
 
 
 class SnakeHead(Tile):
