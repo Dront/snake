@@ -38,6 +38,7 @@ class Game(object):
 
         bg = pygame.image.load(os.path.join(params['PIC_FOLDER'], params['BG_PIC']))
         self.bg_pic = pygame.transform.scale(bg, params['WIN_SIZE'])
+        self.bg_pic.set_colorkey((255, 255, 255))
 
     def create_fruit(self):
         free_tiles = self.map - self.player.coords

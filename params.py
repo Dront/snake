@@ -1,5 +1,3 @@
-from os import linesep
-
 params = {
     'CAPTION': 'snake',
 
@@ -18,6 +16,7 @@ params = {
 
     'PIC_FOLDER': 'pics',
     'BG_PIC': 'snake.jpg',
+    'ICON': 'ksnake.png',
 
     'BG_COLOR': (55, 55, 55),
     'TEXT_COLOR': (255, 160, 40),
