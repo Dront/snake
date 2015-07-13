@@ -4,17 +4,20 @@ params = {
     'CAPTION': 'snake',
 
     'WIN_SIZE': (800, 800),
-    'TILE_SIZE': 40,
-    'TILE_COUNT': 20,
+    'TILE_SIZE': 25,
+    'TILE_COUNT': 32,
 
-    'START_POS': (10, 10),
-    'START_SIZE': 5,
+    'START_POS': (20, 20),
+    'START_SIZE': 7,
 
     'FPS': 40,
-    'STEP_TIME': 250,
+    'STEP_TIME': 100,
 
     'MAP_FOLDER': 'maps',
-    'DEFAULT_MAP': 'map3.txt',
+    'DEFAULT_MAP': 'big1.txt',
+
+    'PIC_FOLDER': 'pics',
+    'BG_PIC': 'snake.jpg',
 
     'BG_COLOR': (55, 55, 55),
     'TEXT_COLOR': (255, 160, 40),

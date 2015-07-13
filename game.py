@@ -1,3 +1,4 @@
+import os
 import pygame
 import random
 from pygame.constants import USEREVENT
@@ -34,6 +35,9 @@ class Game(object):
 
         self.fruit = pygame.sprite.GroupSingle()
         self.fruit.add(self.create_fruit())
+
+        bg = pygame.image.load(os.path.join(params['PIC_FOLDER'], params['BG_PIC']))
+        self.bg_pic = pygame.transform.scale(bg, params['WIN_SIZE'])
 
     def create_fruit(self):
         free_tiles = self.map - self.player.coords
@@ -115,10 +119,10 @@ class Game(object):
                 self.player.eat(ate)
                 self.fruit.add(self.create_fruit())
 
-
     def display_frame(self, screen):
         """ Display everything to the screen. """
         screen.fill(params['BG_COLOR'])
+        screen.blit(self.bg_pic, (0, 0))
 
         if self.state == State.GAME_OVER:
             utils.draw_text(screen, params['GAME_OVER_TEXT'])

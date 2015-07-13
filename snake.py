@@ -23,6 +23,7 @@ class Tile(pygame.sprite.Sprite):
         self.coords = coords
         self.rect.x = self.coords[0] * self.size
         self.rect.y = self.coords[1] * self.size
+        # self.rect.move((, self.coords[1] * self.size))
 
 
 class Obstacle(Tile):
