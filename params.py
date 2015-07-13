@@ -8,7 +8,7 @@ params = {
     'START_POS': (20, 20),
     'START_SIZE': 7,
 
-    'FPS': 40,
+    'FPS': 10,
     'STEP_TIME': 100,
 
     'MAP_FOLDER': 'maps',
@@ -17,6 +17,7 @@ params = {
     'PIC_FOLDER': 'pics',
     'BG_PIC': 'snake.jpg',
     'ICON': 'ksnake.png',
+    'APPLE_PIC': 'apple.png',
 
     'BG_COLOR': (55, 55, 55),
     'TEXT_COLOR': (255, 160, 40),

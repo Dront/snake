@@ -123,7 +123,7 @@ class Game(object):
     def display_frame(self, screen):
         """ Display everything to the screen. """
         screen.fill(params['BG_COLOR'])
-        screen.blit(self.bg_pic, (0, 0))
+        # screen.blit(self.bg_pic, (0, 0))
 
         if self.state == State.GAME_OVER:
             utils.draw_text(screen, params['GAME_OVER_TEXT'])
