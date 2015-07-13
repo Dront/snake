@@ -9,8 +9,6 @@ from params import params
 def main():
     pygame.init()
 
-    # setting the icon
-
     # the cursor
     pygame.mouse.set_visible(True)
     pygame.mouse.set_cursor(*pygame.cursors.diamond)

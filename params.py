@@ -15,6 +15,8 @@ params = {
     'DEFAULT_MAP': 'map3.txt',
 
     'PIC_FOLDER': 'pics',
+    'PAUSE_PIC': 'pause.jpg',
+    'GAME_OVER_PIC': 'game over.jpg',
     'BG_PIC': 'snake.jpg',
     'ICON': 'ksnake.png',
 

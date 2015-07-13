@@ -40,6 +40,12 @@ class Game(object):
         self.bg_pic = pygame.transform.scale(bg, params['WIN_SIZE'])
         self.bg_pic.set_colorkey((255, 255, 255))
 
+        pic = pygame.image.load(os.path.join(params['PIC_FOLDER'], params['PAUSE_PIC']))
+        self.pause_pic = pygame.transform.scale(pic, params['WIN_SIZE']).convert()
+        pic = pygame.image.load(os.path.join(params['PIC_FOLDER'], params['GAME_OVER_PIC'])).convert()
+        self.game_over_pic = pygame.transform.scale(pic, params['WIN_SIZE']).convert()
+
+
     def create_fruit(self):
         free_tiles = self.map - self.player.coords
         new_coords = random.choice(list(free_tiles))
@@ -126,7 +132,8 @@ class Game(object):
         # screen.blit(self.bg_pic, (0, 0))
 
         if self.state == State.GAME_OVER:
-            utils.draw_text(screen, params['GAME_OVER_TEXT'])
+            # utils.draw_text(screen, params['GAME_OVER_TEXT'])
+            screen.blit(self.game_over_pic, (0, 0))
 
         elif self.state == State.RUN:
             utils.draw_grid(screen)
@@ -135,7 +142,8 @@ class Game(object):
             self.player.draw(screen)
 
         elif self.state == State.PAUSE:
-            utils.draw_text(screen, params['GAME_PAUSED_TEXT'])
+            screen.blit(self.pause_pic, (0, 0))
+            # utils.draw_text(screen, params['GAME_PAUSED_TEXT'])
 
         utils.draw_score(screen, self.player.score)
 
