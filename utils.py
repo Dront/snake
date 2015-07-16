@@ -23,12 +23,18 @@ def draw_text(screen, text):
     screen.blit(rendered_text, [center_x, center_y])
 
 
-def draw_score(screen, score):
+def draw_score(screen, score, high_score):
     font = pygame.font.SysFont(params['FONT'], 25)
-    text = font.render('Score: ' + str(score), True, params['SCORE_COLOR'])
-    x = (params['WIN_SIZE'][0] // 2) - (text.get_width() // 2)
-    y = text.get_height() // 2
-    screen.blit(text, [x, y])
+    score_text = font.render('Score: ' + str(score), True, params['SCORE_COLOR'])
+    high_score_text = font.render('Best: ' + str(high_score), True, params['SCORE_COLOR'])
+
+    x = score_text.get_width() // 2
+    y = score_text.get_height() // 2
+    screen.blit(score_text, [x, y])
+
+    x = params['WIN_SIZE'][0] - high_score_text.get_width() * 1.5
+    y = high_score_text.get_height() // 2
+    screen.blit(high_score_text, [x, y])
 
 
 def constrain(x, left, right):

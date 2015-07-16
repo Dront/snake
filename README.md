@@ -12,7 +12,7 @@ A few fruits shall appear on field at the same time.
 
 Use some nice pictures instead of those creepy colored rectangles.
 
-Show records.
+Animations.
 
 Refactor like half of the code.
 

@@ -138,7 +138,7 @@ class Game(object):
             screen.blit(self.game_over_pic, (0, 0))
 
         elif self.state == State.RUN:
-            utils.draw_grid(screen)
+            # utils.draw_grid(screen)
             self.obstacles.draw(screen)
             self.fruit.draw(screen)
             self.player.draw(screen)
@@ -146,6 +146,6 @@ class Game(object):
         elif self.state == State.PAUSE:
             screen.blit(self.pause_pic, (0, 0))
 
-        utils.draw_score(screen, self.player.score)
+        utils.draw_score(screen, self.player.score, params['HIGH_SCORE'])
 
         pygame.display.flip()
