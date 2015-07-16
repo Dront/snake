@@ -33,6 +33,10 @@ class Obstacle(Tile):
     def __init__(self, coords):
         Tile.__init__(self, coords, params['OBSTACLE_COLOR'])
 
+        pic = pygame.image.load(os.path.join(params['PIC_FOLDER'], params['WALL_PIC']))
+        pic = pygame.transform.scale(pic, (Tile.size, Tile.size)).convert()
+        self.image = pic
+
 
 class Fruit(Tile):
     """

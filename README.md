@@ -10,6 +10,8 @@ ____
 
 A few fruits shall appear on field at the same time.
 
+Draw some background. 
+
 Use some nice pictures instead of those creepy colored rectangles.
 
 Animations.

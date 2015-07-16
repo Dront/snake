@@ -20,6 +20,8 @@ default = {
     'PAUSE_PIC': 'pause.jpg',
     'GAME_OVER_PIC': 'game over.jpg',
     'BG_PIC': 'snake.jpg',
+    'WALL_PIC': 'wall.jpg',
+    'GROUND_PIC': 'rock.png',
     'ICON': 'ksnake.png',
 
     'FRUIT_PICS': ['apple.png', 'cherry.png', 'lemon.png', 'strawberry.png'],
@@ -27,7 +29,7 @@ default = {
 
     'BG_COLOR': (55, 55, 55),
     'TEXT_COLOR': (255, 160, 40),
-    'SCORE_COLOR': (204, 204, 0),
+    'SCORE_COLOR': (30, 30, 180),
     'HEAD_COLOR': (46, 166, 42),
     'BODY_COLOR': (37, 60, 213),
     'GRID_COLOR': (100, 100, 100),
