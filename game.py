@@ -2,7 +2,7 @@ import os
 import pygame
 import random
 from pygame.constants import USEREVENT
-from params import params
+from params import params, save_params
 from snake import Snake, ObstacleContainer, Fruit
 import utils
 
@@ -44,7 +44,6 @@ class Game(object):
         self.pause_pic = pygame.transform.scale(pic, params['WIN_SIZE']).convert()
         pic = pygame.image.load(os.path.join(params['PIC_FOLDER'], params['GAME_OVER_PIC'])).convert()
         self.game_over_pic = pygame.transform.scale(pic, params['WIN_SIZE']).convert()
-
 
     def create_fruit(self):
         free_tiles = self.map - self.player.coords
@@ -124,6 +123,10 @@ class Game(object):
             ate = pygame.sprite.spritecollideany(self.player.head, self.fruit.sprites())
             if ate is not None:
                 self.player.eat(ate)
+                if self.player.score > params['HIGH_SCORE']:
+                    params['HIGH_SCORE'] = self.player.score
+                    save_params()
+
                 self.fruit.add(self.create_fruit())
 
     def display_frame(self, screen):
@@ -132,7 +135,6 @@ class Game(object):
         # screen.blit(self.bg_pic, (0, 0))
 
         if self.state == State.GAME_OVER:
-            # utils.draw_text(screen, params['GAME_OVER_TEXT'])
             screen.blit(self.game_over_pic, (0, 0))
 
         elif self.state == State.RUN:
@@ -143,7 +145,6 @@ class Game(object):
 
         elif self.state == State.PAUSE:
             screen.blit(self.pause_pic, (0, 0))
-            # utils.draw_text(screen, params['GAME_PAUSED_TEXT'])
 
         utils.draw_score(screen, self.player.score)
 

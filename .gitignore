@@ -62,4 +62,5 @@ target/
 # PyCharm stuff:
 .idea
 
-
+# Params saved with pickle module
+*.pickle

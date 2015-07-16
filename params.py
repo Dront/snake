@@ -1,4 +1,6 @@
-params = {
+import pickle
+
+default = {
     'CAPTION': 'snake',
 
     'WIN_SIZE': (800, 800),
@@ -34,5 +36,27 @@ params = {
 
     'FONT': 'optima',
     'GAME_OVER_TEXT': 'Game Over, press any key to restart',
-    'GAME_PAUSED_TEXT': 'Pause, press any key to continue'
+    'GAME_PAUSED_TEXT': 'Pause, press any key to continue',
+
+    'HIGH_SCORE': 0
 }
+
+PARAM_PAM_PAM = "params.pickle"
+params = default
+
+
+def load_params():
+    global params
+    try:
+        with open(PARAM_PAM_PAM, mode='rb') as f:
+            params = pickle.load(f)
+    except IOError:
+        pass
+
+
+def save_params():
+    with open(PARAM_PAM_PAM, mode='wb') as f:
+        pickle.dump(params, f)
+
+
+load_params()

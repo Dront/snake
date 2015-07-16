@@ -12,13 +12,13 @@ A few fruits shall appear on field at the same time.
 
 Use some nice pictures instead of those creepy colored rectangles.
 
-Saving records and options.
+Show records.
 
 Refactor like half of the code.
 
 Introduction and options screen.
 
-Map class?
+Map and resources classes?
 
 ____
 
