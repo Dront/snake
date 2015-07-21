@@ -38,6 +38,19 @@ class Obstacle(Tile):
         self.image = pic
 
 
+class Ground(Tile):
+    """
+    Class represents free tiles on map. Convenience class.
+    """
+
+    def __init__(self, coords):
+        Tile.__init__(self, coords, params['GROUND_COLOR'])
+
+        pic = pygame.image.load(os.path.join(params['PIC_FOLDER'], params['GROUND_PIC']))
+        pic = pygame.transform.scale(pic, (Tile.size, Tile.size)).convert()
+        self.image = pic
+
+
 class Fruit(Tile):
     """
     Class represents fruits for snake.
@@ -69,14 +82,16 @@ class SnakeBody(Tile):
         Tile.__init__(self, coords, params['BODY_COLOR'])
 
 
-class ObstacleContainer(object):
+class Map(object):
     """
     Represents all obstacle on map
     """
 
     def __init__(self, filename=params['DEFAULT_MAP']):
-        self.tiles = pygame.sprite.Group()
-        self.coords = set()
+        self.obstacles = pygame.sprite.Group()
+        self.ground = pygame.sprite.Group()
+        self.obs_coords = set()
+        self.ground_coords = set()
 
         cur_path = os.getcwd()
         map_path = os.path.join(cur_path, params['MAP_FOLDER'], filename)
@@ -84,13 +99,17 @@ class ObstacleContainer(object):
         with open(map_path, 'r') as map_file:
             for i, line in enumerate(map_file):
                 for j in xrange(params['TILE_COUNT']):
+                    c = (j, i)
                     if line[j] == '*':
-                        c = (j, i)
-                        self.coords.add(c)
-                        self.tiles.add(Obstacle(c))
+                        self.obs_coords.add(c)
+                        self.obstacles.add(Obstacle(c))
+                    elif line[j] == '-':
+                        self.ground_coords.add(c)
+                        self.ground.add(Ground(c))
 
     def draw(self, screen):
-        self.tiles.draw(screen)
+        self.obstacles.draw(screen)
+        self.ground.draw(screen)
 
 
 class Snake(object):

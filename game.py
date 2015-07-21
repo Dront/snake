@@ -3,7 +3,7 @@ import pygame
 import random
 from pygame.constants import USEREVENT
 from params import params, save_params
-from snake import Snake, ObstacleContainer, Fruit
+from snake import Snake, Map, Fruit
 import utils
 
 
@@ -27,17 +27,13 @@ class Game(object):
         self.player = Snake()
         self.run_snake_timer()
 
-        self.obstacles = ObstacleContainer(filename=params["DEFAULT_MAP"])
-
-        map_size = params['TILE_COUNT']
-        self.map = set([(i, j) for i in range(map_size) for j in range(map_size)])
-        self.map -= self.obstacles.coords
+        self.map = Map(filename=params["DEFAULT_MAP"])
 
         self.fruit = pygame.sprite.GroupSingle()
         self.fruit.add(self.create_fruit())
 
-        bg = pygame.image.load(os.path.join(params['PIC_FOLDER'], params['BG_PIC']))
-        self.bg_pic = pygame.transform.scale(bg, params['WIN_SIZE']).convert()
+        # bg = pygame.image.load(os.path.join(params['PIC_FOLDER'], params['BG_PIC']))
+        # self.bg_pic = pygame.transform.scale(bg, params['WIN_SIZE']).convert()
 
         pic = pygame.image.load(os.path.join(params['PIC_FOLDER'], params['PAUSE_PIC']))
         self.pause_pic = pygame.transform.scale(pic, params['WIN_SIZE']).convert()
@@ -45,7 +41,7 @@ class Game(object):
         self.game_over_pic = pygame.transform.scale(pic, params['WIN_SIZE']).convert()
 
     def create_fruit(self):
-        free_tiles = self.map - self.player.coords
+        free_tiles = self.map.ground_coords - self.player.coords
         new_coords = random.choice(list(free_tiles))
         return Fruit.create(new_coords)
 
@@ -111,7 +107,7 @@ class Game(object):
         if self.state == State.RUN:
 
             # collision with wall
-            if pygame.sprite.spritecollideany(self.player.head, self.obstacles.tiles):
+            if pygame.sprite.spritecollideany(self.player.head, self.map.obstacles):
                 self.state = State.GAME_OVER
 
             # collision with tail
@@ -130,15 +126,15 @@ class Game(object):
 
     def display_frame(self, screen):
         """ Display everything to the screen. """
-        # screen.fill(params['BG_COLOR'])
-        screen.blit(self.bg_pic, (0, 0))
+        screen.fill(params['BG_COLOR'])
+        # screen.blit(self.bg_pic, (0, 0))
 
         if self.state == State.GAME_OVER:
             screen.blit(self.game_over_pic, (0, 0))
 
         elif self.state == State.RUN:
             # utils.draw_grid(screen)
-            self.obstacles.draw(screen)
+            self.map.draw(screen)
             self.fruit.draw(screen)
             self.player.draw(screen)
 

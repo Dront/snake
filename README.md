@@ -10,9 +10,7 @@ ____
 
 Draw pause and game over pics with selected font over black background.
 
-Draw grass tiles separately, without bg pic.
-
-Resources class.
+Resources.
 
 Input buffering.
 

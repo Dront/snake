@@ -21,6 +21,7 @@ default = {
     'GAME_OVER_PIC': 'game over.jpg',
     'BG_PIC': 'grass.png',
     'WALL_PIC': 'wall.png',
+    'GROUND_PIC': 'small_grass.png',
     'ICON': 'ksnake.png',
 
     'FRUIT_PICS': ['apple.png', 'cherry.png', 'lemon.png', 'strawberry.png'],
@@ -33,6 +34,7 @@ default = {
     'BODY_COLOR': (37, 60, 213),
     'GRID_COLOR': (100, 100, 100),
     'OBSTACLE_COLOR': (102, 0, 0),
+    'GROUND_COLOR': (0, 150, 0),
     'FRUIT_COLOR': (204, 0, 204),
 
     'FONT': 'Minecraftia.ttf',
