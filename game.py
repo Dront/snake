@@ -37,8 +37,7 @@ class Game(object):
         self.fruit.add(self.create_fruit())
 
         bg = pygame.image.load(os.path.join(params['PIC_FOLDER'], params['BG_PIC']))
-        self.bg_pic = pygame.transform.scale(bg, params['WIN_SIZE'])
-        self.bg_pic.set_colorkey((255, 255, 255))
+        self.bg_pic = pygame.transform.scale(bg, params['WIN_SIZE']).convert()
 
         pic = pygame.image.load(os.path.join(params['PIC_FOLDER'], params['PAUSE_PIC']))
         self.pause_pic = pygame.transform.scale(pic, params['WIN_SIZE']).convert()
@@ -131,8 +130,8 @@ class Game(object):
 
     def display_frame(self, screen):
         """ Display everything to the screen. """
-        screen.fill(params['BG_COLOR'])
-        # screen.blit(self.bg_pic, (0, 0))
+        # screen.fill(params['BG_COLOR'])
+        screen.blit(self.bg_pic, (0, 0))
 
         if self.state == State.GAME_OVER:
             screen.blit(self.game_over_pic, (0, 0))

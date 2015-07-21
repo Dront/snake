@@ -8,19 +8,17 @@ ____
 
 ## TODO:
 
-A few fruits shall appear on field at the same time.
+Find nice fonts.
 
-Draw some background. 
+Resources class.
 
-Use some nice pictures instead of those creepy colored rectangles.
+Input buffering.
+
+Use some nice pictures instead of those creepy ones.
 
 Animations.
 
-Refactor like half of the code.
-
 Introduction and options screen.
-
-Map and resources classes?
 
 ____
 

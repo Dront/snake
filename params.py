@@ -17,9 +17,9 @@ default = {
     'DEFAULT_MAP': 'map3.txt',
 
     'PIC_FOLDER': 'pics',
-    'PAUSE_PIC': 'pause.jpg',
+    'PAUSE_PIC': 'pause.png',
     'GAME_OVER_PIC': 'game over.jpg',
-    'BG_PIC': 'snake.jpg',
+    'BG_PIC': 'bg.jpg',
     'WALL_PIC': 'wall.jpg',
     'GROUND_PIC': 'rock.png',
     'ICON': 'ksnake.png',
