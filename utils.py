@@ -3,8 +3,11 @@ from params import params
 
 
 pygame.font.init()
-font = pygame.font.Font(params['FONT'], 25)
-font.set_bold(False)
+small_font = pygame.font.Font(params['FONT'], 25)
+small_font.set_bold(True)
+
+big_font = pygame.font.Font(params['FONT'], 70)
+big_font.set_bold(True)
 
 
 def draw_grid(screen):
@@ -19,16 +22,27 @@ def draw_grid(screen):
         pygame.draw.aaline(screen, color, (0, y), (win_size[0], y))
 
 
+def draw_screen(screen, text):
+    rendered_text = big_font.render(text, True, params['TEXT_COLOR'])
+    center_x = (params['WIN_SIZE'][0] // 2) - (rendered_text.get_width() // 2)
+    center_y = (params['WIN_SIZE'][1] // 2) - (rendered_text.get_height() // 2)
+    screen.blit(rendered_text, [center_x, center_y])
+    pass
+
+
 def draw_text(screen, text):
-    rendered_text = font.render(text, True, params['TEXT_COLOR'])
+    rendered_text = small_font.render(text, True, params['TEXT_COLOR'])
     center_x = (params['WIN_SIZE'][0] // 2) - (rendered_text.get_width() // 2)
     center_y = (params['WIN_SIZE'][1] // 2) - (rendered_text.get_height() // 2)
     screen.blit(rendered_text, [center_x, center_y])
 
 
 def draw_score(screen, score, high_score):
-    score_text = font.render('Score: ' + str(score), True, params['SCORE_COLOR'])
-    high_score_text = font.render('Best: ' + str(high_score), True, params['SCORE_COLOR'])
+    score_text = small_font.render('Score: ' + str(score), True, params['TEXT_COLOR'])
+    high_score_text = small_font.render('Best: ' + str(high_score), True, params['TEXT_COLOR'])
+
+    x = score_text.get_width()
+    y = score_text.get_height()
 
     x = score_text.get_width() // 2
     y = score_text.get_height() // 2

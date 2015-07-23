@@ -32,14 +32,6 @@ class Game(object):
         self.fruit = pygame.sprite.GroupSingle()
         self.fruit.add(self.create_fruit())
 
-        # bg = pygame.image.load(os.path.join(params['PIC_FOLDER'], params['BG_PIC']))
-        # self.bg_pic = pygame.transform.scale(bg, params['WIN_SIZE']).convert()
-
-        pic = pygame.image.load(os.path.join(params['PIC_FOLDER'], params['PAUSE_PIC']))
-        self.pause_pic = pygame.transform.scale(pic, params['WIN_SIZE']).convert()
-        pic = pygame.image.load(os.path.join(params['PIC_FOLDER'], params['GAME_OVER_PIC'])).convert()
-        self.game_over_pic = pygame.transform.scale(pic, params['WIN_SIZE']).convert()
-
     def create_fruit(self):
         free_tiles = self.map.ground_coords - self.player.coords
         new_coords = random.choice(list(free_tiles))
@@ -130,16 +122,16 @@ class Game(object):
         # screen.blit(self.bg_pic, (0, 0))
 
         if self.state == State.GAME_OVER:
-            screen.blit(self.game_over_pic, (0, 0))
+            utils.draw_screen(screen, params['GAME_OVER_TEXT'])
+
+        elif self.state == State.PAUSE:
+            utils.draw_screen(screen, params['GAME_PAUSED_TEXT'])
 
         elif self.state == State.RUN:
             # utils.draw_grid(screen)
             self.map.draw(screen)
             self.fruit.draw(screen)
             self.player.draw(screen)
-
-        elif self.state == State.PAUSE:
-            screen.blit(self.pause_pic, (0, 0))
 
         utils.draw_score(screen, self.player.score, params['HIGH_SCORE'])
 

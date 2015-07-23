@@ -8,8 +8,6 @@ ____
 
 ## TODO:
 
-Draw pause and game over pics with selected font over black background.
-
 Resources.
 
 Input buffering.

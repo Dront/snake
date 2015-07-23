@@ -19,17 +19,15 @@ default = {
     'PIC_FOLDER': 'pics',
     'PAUSE_PIC': 'paused.jpg',
     'GAME_OVER_PIC': 'game over.jpg',
-    'BG_PIC': 'grass.png',
-    'WALL_PIC': 'wall.png',
-    'GROUND_PIC': 'small_grass.png',
+    'WALL_PIC': 'netherrack.png',
+    'GROUND_PIC': 'bedrock.png',
     'ICON': 'ksnake.png',
 
     'FRUIT_PICS': ['apple.png', 'cherry.png', 'lemon.png', 'strawberry.png'],
     'FRUIT_WEIGHTS': [1, 2, 3, 4],
 
     'BG_COLOR': (55, 55, 55),
-    'TEXT_COLOR': (255, 255, 255),
-    'SCORE_COLOR': (210, 176, 88),
+    'TEXT_COLOR': (210, 176, 88),
     'HEAD_COLOR': (46, 166, 42),
     'BODY_COLOR': (37, 60, 213),
     'GRID_COLOR': (100, 100, 100),
@@ -38,8 +36,8 @@ default = {
     'FRUIT_COLOR': (204, 0, 204),
 
     'FONT': 'Minecraftia.ttf',
-    'GAME_OVER_TEXT': 'Game Over, press any key to restart',
-    'GAME_PAUSED_TEXT': 'Pause, press any key to continue',
+    'GAME_OVER_TEXT': 'Game Over',
+    'GAME_PAUSED_TEXT': 'Pause',
 
     'HIGH_SCORE': 0
 }
