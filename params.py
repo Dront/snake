@@ -21,7 +21,9 @@ default = {
     'GAME_OVER_PIC': 'game over.jpg',
     'WALL_PIC': 'netherrack.png',
     'GROUND_PIC': 'bedrock.png',
-    'ICON': 'ksnake.png',
+    'SNAKE_BODY_PIC': 'snake_body.jpg',
+    'SNAKE_HEAD_PIC': 'snake_head.png',
+    'ICON': 'icon.png',
 
     'FRUIT_PICS': ['apple.png', 'cherry.png', 'lemon.png', 'strawberry.png'],
     'FRUIT_WEIGHTS': [1, 2, 3, 4],

@@ -1,6 +1,6 @@
-import os
-import pygame
 import random
+
+import pygame
 from pygame.constants import USEREVENT
 from params import params, save_params
 from snake import Snake, Map, Fruit
@@ -89,6 +89,7 @@ class Game(object):
 
                 elif self.state == State.GAME_OVER:
                     self.__init__()
+
 
         return False
 

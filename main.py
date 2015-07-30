@@ -1,23 +1,22 @@
 #!/usr/bin/python
 
-import os
 import pygame
-from game import Game
 from params import params
+
+
+screen = pygame.display.set_mode(params['WIN_SIZE'])
+pygame.display.set_caption(params['CAPTION'])
+
+from game import Game
+from res import res
 
 
 def main():
     pygame.init()
 
-    # the cursor
+    pygame.display.set_icon(res['ICON'])
     pygame.mouse.set_visible(True)
     pygame.mouse.set_cursor(*pygame.cursors.diamond)
-
-    screen = pygame.display.set_mode(params['WIN_SIZE'])
-    pygame.display.set_caption(params['CAPTION'])
-
-    icon = pygame.image.load(os.path.join(params['PIC_FOLDER'], params['ICON'])).convert_alpha()
-    pygame.display.set_icon(icon)
 
     done = False
     clock = pygame.time.Clock()

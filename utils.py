@@ -1,13 +1,6 @@
 import pygame
 from params import params
-
-
-pygame.font.init()
-small_font = pygame.font.Font(params['FONT'], 25)
-small_font.set_bold(True)
-
-big_font = pygame.font.Font(params['FONT'], 70)
-big_font.set_bold(True)
+from res import res
 
 
 def draw_grid(screen):
@@ -23,7 +16,7 @@ def draw_grid(screen):
 
 
 def draw_screen(screen, text):
-    rendered_text = big_font.render(text, True, params['TEXT_COLOR'])
+    rendered_text = res['BIG_FONT'].render(text, True, params['TEXT_COLOR'])
     center_x = (params['WIN_SIZE'][0] // 2) - (rendered_text.get_width() // 2)
     center_y = (params['WIN_SIZE'][1] // 2) - (rendered_text.get_height() // 2)
     screen.blit(rendered_text, [center_x, center_y])
@@ -31,13 +24,14 @@ def draw_screen(screen, text):
 
 
 def draw_text(screen, text):
-    rendered_text = small_font.render(text, True, params['TEXT_COLOR'])
+    rendered_text = res['SMALL_FONT'].render(text, True, params['TEXT_COLOR'])
     center_x = (params['WIN_SIZE'][0] // 2) - (rendered_text.get_width() // 2)
     center_y = (params['WIN_SIZE'][1] // 2) - (rendered_text.get_height() // 2)
     screen.blit(rendered_text, [center_x, center_y])
 
 
 def draw_score(screen, score, high_score):
+    small_font = res['SMALL_FONT']
     score_text = small_font.render('Score: ' + str(score), True, params['TEXT_COLOR'])
     high_score_text = small_font.render('Best: ' + str(high_score), True, params['TEXT_COLOR'])
 

@@ -8,11 +8,11 @@ ____
 
 ## TODO:
 
-Resources.
+Fix bug with text size.
 
 Input buffering.
 
-Use some nice pictures instead of those creepy ones.
+Use some nice pictures for snake instead of those creepy ones.
 
 Animations.
 

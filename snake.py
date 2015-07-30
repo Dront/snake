@@ -2,6 +2,13 @@ import pygame
 import random
 import os
 from params import params
+from res import res
+
+
+UP = (0, -1)
+DOWN = (0,  1)
+LEFT = (-1, 0)
+RIGHT = (1,  0)
 
 
 class Tile(pygame.sprite.Sprite):
@@ -32,10 +39,7 @@ class Obstacle(Tile):
 
     def __init__(self, coords):
         Tile.__init__(self, coords, params['OBSTACLE_COLOR'])
-
-        pic = pygame.image.load(os.path.join(params['PIC_FOLDER'], params['WALL_PIC']))
-        pic = pygame.transform.scale(pic, (Tile.size, Tile.size)).convert()
-        self.image = pic
+        self.image = res['WALL_PIC']
 
 
 class Ground(Tile):
@@ -45,10 +49,7 @@ class Ground(Tile):
 
     def __init__(self, coords):
         Tile.__init__(self, coords, params['GROUND_COLOR'])
-
-        pic = pygame.image.load(os.path.join(params['PIC_FOLDER'], params['GROUND_PIC']))
-        pic = pygame.transform.scale(pic, (Tile.size, Tile.size)).convert()
-        self.image = pic
+        self.image = res['GROUND_PIC']
 
 
 class Fruit(Tile):
@@ -75,11 +76,25 @@ class Fruit(Tile):
 class SnakeHead(Tile):
     def __init__(self, coords):
         Tile.__init__(self, coords, params['HEAD_COLOR'])
+        self.image = res['SNAKE_HEAD_PIC']
+
+    def set_dir(self, dir):
+        if dir == UP:
+            angle = 0
+        elif dir == DOWN:
+            angle = 180
+        elif dir == LEFT:
+            angle = 90
+        else:
+            angle = 270
+
+        self.image = pygame.transform.rotate(res['SNAKE_HEAD_PIC'], angle)
 
 
 class SnakeBody(Tile):
     def __init__(self, coords):
         Tile.__init__(self, coords, params['BODY_COLOR'])
+        self.image = res['SNAKE_BODY_PIC']
 
 
 class Map(object):
@@ -117,14 +132,9 @@ class Snake(object):
     Represents player
     """
 
-    UP = (0, -1)
-    DOWN = (0,  1)
-    LEFT = (-1, 0)
-    RIGHT = (1,  0)
-
     def __init__(self):
         self.score = 0
-        self.cur_dir = self.UP
+        self.cur_dir = UP
         self.size = params['START_SIZE']
         self.next_dir = None
         self.ate_something = None
@@ -147,6 +157,7 @@ class Snake(object):
         if self.next_dir is not None:
             self.cur_dir = self.next_dir
             self.next_dir = None
+            self.head.set_dir(self.cur_dir)
 
         self.coords = set()
         head_coords = tuple(self.head.coords)
@@ -175,17 +186,17 @@ class Snake(object):
 
     def change_dir(self, direction):
         if direction == 'UP':
-            if self.cur_dir != self.DOWN:
-                self.next_dir = self.UP
+            if self.cur_dir != DOWN:
+                self.next_dir = UP
         elif direction == 'DOWN':
-            if self.cur_dir != self.UP:
-                self.next_dir = self.DOWN
+            if self.cur_dir != UP:
+                self.next_dir = DOWN
         elif direction == 'LEFT':
-            if self.cur_dir != self.RIGHT:
-                self.next_dir = self.LEFT
+            if self.cur_dir != RIGHT:
+                self.next_dir = LEFT
         elif direction == 'RIGHT':
-            if self.cur_dir != self.LEFT:
-                self.next_dir = self.RIGHT
+            if self.cur_dir != LEFT:
+                self.next_dir = RIGHT
 
     def eat(self, fruit):
         self.score += fruit.weight
