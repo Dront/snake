@@ -8,6 +8,8 @@ ____
 
 ## TODO:
 
+Refactor Tile class and his children.
+
 Fix bug with text size.
 
 Input buffering.
