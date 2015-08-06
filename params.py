@@ -21,7 +21,7 @@ default = {
     'GAME_OVER_PIC': 'game over.jpg',
     'WALL_PIC': 'netherrack.png',
     'GROUND_PIC': 'bedrock.png',
-    'SNAKE_BODY_PIC': 'snake_body.jpg',
+    'SNAKE_BODY_PIC': 'snake_body.png',
     'SNAKE_HEAD_PIC': 'snake_head.png',
     'ICON': 'icon.png',
 

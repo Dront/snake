@@ -10,6 +10,8 @@ ____
 
 Refactor Tile class and his children.
 
+Add logging.
+
 Fix bug with text size.
 
 Input buffering.
@@ -17,6 +19,8 @@ Input buffering.
 Use some nice pictures for snake instead of those creepy ones.
 
 Animations.
+
+Find or code up some simple widgets.
 
 Introduction and options screen.
 

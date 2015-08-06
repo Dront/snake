@@ -64,3 +64,6 @@ target/
 
 # Params saved with pickle module
 *.pickle
+
+# Temporary stuff
+new_pics/
